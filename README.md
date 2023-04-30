@@ -11,9 +11,11 @@ With just a few clicks, you can generate randomized color combinations and save 
 
 ![alt text](color_palette_2.png "Example Palette 2")
 
-## How to Use
+![alt text](color_palette_3.png "Example Palette 3")
 
-1. Open the program.
-2. Generate a random palette.
-3. Save the palette as a 320x60 png grid.
-4. Use the palette for your art projects.
+## How to Use
+1. Unzip the program to desired location.
+2. Open the program.
+3. Generate a random palette or chose your starting color.
+4. Save the palette as a 320x60 png grid, saved in the same directory as the .exe.
+5. Use the palette for your art projects.
