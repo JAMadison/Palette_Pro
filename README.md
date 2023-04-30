@@ -14,6 +14,6 @@ With just a few clicks, you can generate randomized color combinations and save 
 ## How to Use
 
 1. Open the program.
-2. Generate a random palette or select your own colors.
+2. Generate a random palette.
 3. Save the palette as a 320x60 png grid.
 4. Use the palette for your art projects.
