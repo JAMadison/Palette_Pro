@@ -4,11 +4,13 @@ This program allows you to create stunning 16-color paint palettes with matching
 With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids. It's the perfect tool for designers, artists, and anyone who loves to experiment with colors.
 
 ## Update
+<a href="https://github.com/JAMadison/Palette_Pro/raw/main/Palette_Pro_v1_2.zip"> Download latest version </a>
+
 Update to v1.2:
 
 -Wider range of color generated
 
--Variable light and dark
+-Variable light and dark color ranges to add more variety
 
 -The left most middle color is your selected color
 
