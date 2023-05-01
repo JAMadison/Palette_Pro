@@ -4,20 +4,29 @@ This program allows you to create stunning 16-color paint palettes with matching
 With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids. It's the perfect tool for designers, artists, and anyone who loves to experiment with colors.
 
 ## Update
-<a href="https://github.com/JAMadison/Palette_Pro/raw/main/Palette_Pro_v1_2.zip"> Download latest version </a>
+<a href="https://github.com/JAMadison/Palette_Pro/raw/main/Palette_Pro_v2.zip"> Download latest version</a>
 
-Update to v1.2:
+## New to v2
+*Now you can select an image and extract a color palette from that image*
 
--Wider range of color generated
+1. Click "Select Image".
 
--Variable light and dark color ranges to add more variety
+![alt text](Palette_Pro_v2.png "New GUI")
 
--The left most middle color is your selected color
+2. Select any image file, and click "Open". *Depending on the available threads on your PC, this could take a bit.*
 
-## Simple GUI
-![alt text](Palette_ProV1_2.png "GUI")
+![alt text](selection.png "image selection")
 
-## Select First Color
+3. A new window will open with your extracted color palette! Here you can save the palette or view individual color tones listed in the bottom right.
+
+![alt text](example_extraction.png "Plotted Colors")
+
+This selected the 42 most used colors, determined algorithmically with a slight variation added, meaning, each time it's used on a single image will generate slightly different results.
+
+![alt text](example_1_Color_Palette.png "Example Palette 1")![alt text](example_2_Color_Palette.png "Example Palette 2")![alt text](example_3_Color_Palette.png "Example Palette 2")
+
+
+## Select Color
 By selecting the first color you set the tone for the rest of the 15 colors and their varients.
 
 *There is random logic to all the colors, if you select the same color twice you will get a different color palette.*
@@ -26,16 +35,27 @@ By selecting the first color you set the tone for the rest of the 15 colors and 
 
 ![alt text](Choose_Starting_Color_Palette.png "Example of selected color palette")
 
-## Example Palettes
+## Example Random Color Palettes
 ![alt text](color_palette.png "Example Palette 1")
 
 ![alt text](color_palette_2.png "Example Palette 2")
 
 ![alt text](color_palette_3.png "Example Palette 3")
 
+## Palette From Image
+
+
 ## How to Use
 1. Unzip the program to desired location.
 2. Open the program.
-3. Generate a random palette or chose your starting color.
+3. Generate a random palette or chose your starting color. Starting colors are the left most middle tile.
 4. Save the palette as a 320x60 png grid, saved in the same directory as the .exe.
 5. Use the palette for your art projects.
+
+## New to v2
+*Now you can select an image and extract a color palette from that image*
+1. Click "Select Image".
+2. Select any image file, and click "Open". *Depending on the available threads on your PC, this could take a bit.*
+3. A new window will open with your extracted color palette!
+
+This uses an agorithm to select the colors, so each time its ran will generate slightly different results.
