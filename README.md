@@ -4,9 +4,11 @@ This program allows you to create stunning 16-color paint palettes with matching
 With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids. It's the perfect tool for designers, artists, and anyone who loves to experiment with colors.
 
 ## Palette Pro v2.0 Release
+Review the code here - https://github.com/JAMadison/Palette_Pro/releases/download/v2.0/main.py *I will make a walkthrough for installing and running this code directly.* 
+
 Goto the release page https://github.com/JAMadison/Palette_Pro/releases/tag/v2.0 
 
-<a href="https://github.com/JAMadison/Palette_Pro/releases/download/v2.0/Palette_Pro_v2.zip"> Download latest version</a>
+https://github.com/JAMadison/Palette_Pro/releases/download/v2.0/Palette_Pro_v2.exe *the .exe was created using <a href="https://github.com/pyinstaller/pyinstaller">pyinstaller</a>*
 
 ## New to v2
 *Now you can select an image and extract a color palette from that image*
