@@ -1,11 +1,11 @@
 ## Palette Pro
 This program allows you to create stunning 16-color paint palettes with matching light and dark variants for each color. With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids.
 
-In v2.0, we've added a new feature that lets you extract color palettes from any image using the Kmeans algorithm. Simply select an image and let the program do the rest! This feature is perfect for designers, artists, and anyone who wants to create color schemes based on an existing image.
+In v2.0.x, we've added a new feature that lets you extract color palettes from any image using the Kmeans algorithm. Simply select an image and let the program do the rest! This feature is perfect for designers, artists, and anyone who wants to create color schemes based on an existing image.
 
 Whether you're looking to create a brand new color palette or extract colors from an image, this program makes it easy to experiment with colors and find the perfect combinations for your next project.
 
-## Palette Pro v2.0 Release and Install instructions:
+## Palette Pro v2.0.0 Release and Install instructions:
 Review the code here - https://github.com/JAMadison/Palette_Pro/blob/main/main.py
 
 1. Requires python 3.10+ and Git
