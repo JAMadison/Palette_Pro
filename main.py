@@ -250,20 +250,27 @@ def save_palette():
         x1 = (i + 1) * 20 - 1
         draw.rectangle([x0, 40, x1, 59], fill=color, outline="black")
 
-    # Save the image as a PNG file
+    # Create the "palettes" directory if it doesn't exist
+    if not os.path.exists("palettes"):
+        os.mkdir("palettes")
+
+    # Save the image as a PNG file in the "palettes" directory
     count = 1
     while True:
-        filename = f"color_palette{'_' + str(count) if count > 1 else ''}.png"
+        filename = f"palettes/color_palette{'_' + str(count) if count > 1 else ''}.png"
         if os.path.exists(filename):
             count += 1
+            #print(f"Saved {filename}")
         else:
             img.save(filename)
+            print(f"Saved {filename}")
             break
+
 
 
 # Create a Tkinter window and canvas
 root = tk.Tk()
-root.title("Palette Pro v2.0")
+root.title("Palette Pro v2.0.1")
 
 # Get the path to the bundled executable
 if getattr(sys, 'frozen', False):

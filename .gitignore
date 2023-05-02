@@ -18,5 +18,6 @@ __pycache__/
 dist/
 build/
 
-# Ignore README
+# Ignore Folders
 README/
+palettes/
