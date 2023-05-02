@@ -20,7 +20,7 @@ Clone your repository using the git clone command followed by the URL of your re
 
 Change the working directory to the root directory of your cloned repository. For example:
 
-	cd <i>YourRepository</i>
+	cd YourRepository
 
 Pull the latest changes from your remote repository using the git pull command. For example:
 
