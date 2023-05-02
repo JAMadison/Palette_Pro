@@ -15,19 +15,19 @@ https://github.com/JAMadison/Palette_Pro/releases/download/v2.0/Palette_Pro_v2.e
 
 1. Click "Select Image".
 
-![alt text](Palette_Pro_v2.png "New GUI")
+![alt text](README/Palette_Pro_v2.png "New GUI")
 
 2. Select any image file, and click "Open". *Depending on the available threads on your PC, this could take a bit.*
 
-![alt text](selection.png "image selection")
+![alt text](README/selection.png "image selection")
 
 3. A new window will open with your extracted color palette! Here you can save the palette or view individual color tones listed in the bottom right.
 
-![alt text](example_extraction.png "Plotted Colors")
+![alt text](README/example_extraction.png "Plotted Colors")
 
 This selected the 42 most used colors, determined algorithmically with a slight variation added, meaning, each time it's used on a single image will generate slightly different results.
 
-![alt text](example_1_Color_Palette.png "Example Palette 1")![alt text](example_2_Color_Palette.png "Example Palette 2")![alt text](example_3_Color_Palette.png "Example Palette 2")
+![alt text](README/example_1_Color_Palette.png "Example Palette 1")![alt text](README/example_2_Color_Palette.png "Example Palette 2")![alt text](README/example_3_Color_Palette.png "Example Palette 2")
 
 
 ## Select Color
@@ -35,16 +35,16 @@ By selecting the first color you set the tone for the rest of the 15 colors and 
 
 *There is random logic to all the colors, if you select the same color twice you will get a different color palette.*
 
-![alt text](Choose_Starting_Color.png "Select a color to start the palette off of")
+![alt text](README/Choose_Starting_Color.png "Select a color to start the palette off of")
 
-![alt text](Choose_Starting_Color_Palette.png "Example of selected color palette")
+![alt text](README/Choose_Starting_Color_Palette.png "Example of selected color palette")
 
 ## Example Random Color Palettes
-![alt text](color_palette.png "Example Palette 1")
+![alt text](README/color_palette.png "Example Palette 1")
 
-![alt text](color_palette_2.png "Example Palette 2")
+![alt text](README/color_palette_2.png "Example Palette 2")
 
-![alt text](color_palette_3.png "Example Palette 3")
+![alt text](README/color_palette_3.png "Example Palette 3")
 
 ## Palette From Image
 
