@@ -1,7 +1,7 @@
 @echo off
 
 REM Set up variables
-set env_name=pallet_pro
+set env_name=venv
 set requirements=requirements.txt
 set script_name=main.py
 

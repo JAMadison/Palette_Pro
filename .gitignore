@@ -1,0 +1,19 @@
+# Ignore virtual environments
+venv/
+
+# Ignore .ico files
+*.ico
+
+# Ignore any image files that aren't .png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# Ignore other files
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
