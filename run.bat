@@ -1,5 +1,4 @@
 @echo off
-git pull
 
 REM Set up variables
 set env_name=venv
@@ -11,16 +10,21 @@ echo Checking for virtual environment...
 if exist %env_name% (
     echo Virtual environment found! Activating...
 ) else (
-    echo Virtual environment not found. Creating...
+    echo Creating virtual environment...
     python -m venv %env_name%
+    echo Virtual environment created!
+    REM Activate virtual environment after creating it
+    call %env_name%\Scripts\activate.bat
+    REM Install dependencies
+    echo Installing dependencies...
+    pip install -r %requirements%
+    REM Deactivate virtual environment
+    echo Deactivating virtual environment...
+    deactivate
 )
 
 REM Activate virtual environment
 call %env_name%\Scripts\activate.bat
-
-REM Install dependencies
-echo Installing dependencies...
-pip install -r %requirements%
 
 REM Run script
 echo Running Pallet Pro...
