@@ -5,18 +5,6 @@ In v2.0, we've added a new feature that lets you extract color palettes from any
 
 Whether you're looking to create a brand new color palette or extract colors from an image, this program makes it easy to experiment with colors and find the perfect combinations for your next project.
 
-## Photoshop users: 
-
-	1. Open Adobe Photoshop and create a new document or open an existing one.
-	2. Click on the "Swatches" panel to open it (if it's not already open, go to "Window" > "Swatches").
-	3. In the Swatches panel, click on the drop-down menu icon (the icon with three horizontal lines) in the top right corner and select "Load Swatches".
-	4. In the file dialog, navigate to the folder where your color_palette.png file is located and select it.
-	5. If the color_palette.png file is not in indexed color mode, you can convert it by going to "Image" > "Mode" > "Indexed Color" and selecting the "Exact" option in the 	   "Palette" dropdown. Then save the file as a PNG.
-	6. The color swatches from your color_palette.png file will be loaded into the Swatches panel.
-	7. To use a color from the palette, simply click on the desired swatch in the Swatches panel. The color will be applied to your currently selected tool or layer.
-	8. You can also save the loaded color palette as a new swatch library by clicking on the Swatches panel drop-down menu icon and selecting "Save Swatches". Give your new   	   swatch library a name and save it to your desired location.
-
-
 ## Palette Pro v2.0 Release and Install instructions:
 Review the code here - https://github.com/JAMadison/Palette_Pro/blob/main/main.py
 
@@ -48,8 +36,31 @@ The first time this is ran it will execute the commands in the run.bat file, whi
 
 And that's it! Just follow these steps and Palette Pro should run smoothly on your machine.
 
+## Photoshop users: 
 
-## New to v2
+1. Open Adobe Photoshop and create a new document or open an existing one.
+
+2. Click on the "Swatches" panel to open it (if it's not already open, go to "Window" > "Swatches").
+
+3. In the Swatches panel, click on the drop-down menu icon (the icon with three horizontal lines) in the top right corner and select "Load Swatches".
+
+4. In the file dialog, navigate to the folder where your color_palette.png file is located and select it.
+
+5. If the color_palette.png file is not in indexed color mode, you can convert it by going to "Image" > "Mode" > "Indexed Color" and selecting the "Exact" 
+option in the "Palette" dropdown. Then save the file as a PNG.
+
+6. The color swatches from your color_palette.png file will be loaded into the Swatches panel.
+
+7. To use a color from the palette, simply click on the desired swatch in the Swatches panel. The color will be applied to your currently selected tool or 
+layer.
+
+8. You can also save the loaded color palette as a new swatch library by clicking on the Swatches panel drop-down menu icon and selecting "Save Swatches". Give your new swatch library a name and save it to your desired location.
+
+## v2.0.1
+* Random palettes now save to palette/ folder
+  * Added console print out of saved image name
+
+## New to v2.0.0
 *Now you can select an image and extract a color palette from that image*
 
 1. Click "Select Image".
@@ -84,14 +95,3 @@ By selecting the first color you set the tone for the rest of the 15 colors and 
 ![alt text](README/color_palette_2.png "Example Palette 2")
 
 ![alt text](README/color_palette_3.png "Example Palette 3")
-
-## Palette From Image
-
-
-## New to v2
-*Now you can select an image and extract a color palette from that image*
-1. Click "Select Image".
-2. Select any image file, and click "Open". *Depending on the available threads on your PC, this could take a bit.*
-3. A new window will open with your extracted color palette!
-
-This uses an agorithm to select the colors, so each time its ran will generate slightly different results.
