@@ -3,12 +3,37 @@ This program allows you to create stunning 16-color paint palettes with matching
 
 With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids. It's the perfect tool for designers, artists, and anyone who loves to experiment with colors.
 
-## Palette Pro v2.0 Release
-Review the code here - https://github.com/JAMadison/Palette_Pro/blob/main/main.py *I will make a walkthrough for installing and running this code directly.* 
+## Palette Pro v2.0 Release and Install instructions:
+Review the code here - https://github.com/JAMadison/Palette_Pro/blob/main/main.py
 
-Goto the release page https://github.com/JAMadison/Palette_Pro/releases/tag/v2.0 
+1. Requires python 3.10+ and Git
 
-https://github.com/JAMadison/Palette_Pro/releases/download/v2.0/Palette_Pro_v2.exe *the .exe was created using <a href="https://github.com/pyinstaller/pyinstaller">pyinstaller</a>*
+Open a command prompt or terminal window.
+
+Change the working directory to where you want to clone your repository. You can do this by running the cd command followed by the path to the directory. For example:
+
+	cd C:\Users\YourUsername\Documents
+
+Clone your repository using the git clone command followed by the URL of your repository. For example:
+
+	git clone https://github.com/JAMadison/Palette_Pro.git
+
+Change the working directory to the root directory of your cloned repository. For example:
+
+	cd <i>YourRepository</i>
+
+Pull the latest changes from your remote repository using the git pull command. For example:
+
+	git pull
+
+Run the run.bat file by typing the following command in the terminal or simply double clicking it:
+
+    run.bat
+
+The first time this is ran it will execute the commands in the run.bat file, which will create a virtual environment, install the required dependencies, and start Palette Pro. After the first time, this will also be how you start Palette Pro.
+
+And that's it! Just follow these steps and Palette Pro should run smoothly on your machine.
+
 
 ## New to v2
 *Now you can select an image and extract a color palette from that image*
@@ -48,13 +73,6 @@ By selecting the first color you set the tone for the rest of the 15 colors and 
 
 ## Palette From Image
 
-
-## How to Use
-1. Unzip the program to desired location.
-2. Open the program.
-3. Generate a random palette or chose your starting color. Starting colors are the left most middle tile.
-4. Save the palette as a 320x60 png grid, saved in the same directory as the .exe.
-5. Use the palette for your art projects.
 
 ## New to v2
 *Now you can select an image and extract a color palette from that image*
