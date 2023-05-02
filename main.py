@@ -267,46 +267,46 @@ def save_palette():
             break
 
 
+if __name__ == '__main__':
+    # Create a Tkinter window and canvas
+    root = tk.Tk()
+    root.title("Palette Pro v2.0.1")
 
-# Create a Tkinter window and canvas
-root = tk.Tk()
-root.title("Palette Pro v2.0.1")
+    # Get the path to the bundled executable
+    if getattr(sys, 'frozen', False):
+        bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
+    else:
+        bundle_dir = os.path.abspath(os.path.dirname(__file__))
 
-# Get the path to the bundled executable
-if getattr(sys, 'frozen', False):
-    bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-else:
-    bundle_dir = os.path.abspath(os.path.dirname(__file__))
+    # Set the window icon
+    icon_path = os.path.join(bundle_dir, 'images', 'icon.png')
+    root.iconphoto(True, tk.PhotoImage(file=icon_path))
 
-# Set the window icon
-icon_path = os.path.join(bundle_dir, 'images', 'icon.png')
-root.iconphoto(True, tk.PhotoImage(file=icon_path))
+    root.resizable(False, False)
+    canvas = tk.Canvas(root, width=16 * 20 + 3, height=70)
+    canvas.pack()
 
-root.resizable(False, False)
-canvas = tk.Canvas(root, width=16 * 20 + 3, height=70)
-canvas.pack()
+    # Generate the initial color palette
+    generate_palette()
 
-# Generate the initial color palette
-generate_palette()
+    # Create a new frame for the first two buttons
+    button_frame = tk.Frame(root)
+    button_frame.pack()
 
-# Create a new frame for the first two buttons
-button_frame = tk.Frame(root)
-button_frame.pack()
+    # Create a "Generate New Palette" button to create a new color palette
+    generate_button = tk.Button(button_frame, text="Random Palette", command=generate_palette)
+    generate_button.pack(side="left", pady=10)
 
-# Create a "Generate New Palette" button to create a new color palette
-generate_button = tk.Button(button_frame, text="Random Palette", command=generate_palette)
-generate_button.pack(side="left", pady=10)
+    choose_button = tk.Button(button_frame, text="Choose Color", command=choose_starting_color)
+    choose_button.pack(side="left", pady=10)
 
-choose_button = tk.Button(button_frame, text="Choose Color", command=choose_starting_color)
-choose_button.pack(side="left", pady=10)
+    # Create a button to select an image
+    select_button = tk.Button(button_frame, text="Select Image", command=get_color_palette)
+    select_button.pack(anchor="center", side="left", pady=2)
 
-# Create a button to select an image
-select_button = tk.Button(button_frame, text="Select Image", command=get_color_palette)
-select_button.pack(anchor="center", side="left", pady=2)
+    # Create a "Save" button to save the color palette as a PNG file
+    save_button = tk.Button(root, text="Save", command=save_palette)
+    save_button.pack(anchor="center", pady=2)
 
-# Create a "Save" button to save the color palette as a PNG file
-save_button = tk.Button(root, text="Save", command=save_palette)
-save_button.pack(anchor="center", pady=2)
-
-# Run the Tkinter event loop
-root.mainloop()
+    # Run the Tkinter event loop
+    root.mainloop()
