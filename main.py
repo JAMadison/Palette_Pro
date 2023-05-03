@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from tkinter import filedialog
 import concurrent.futures
 import os, sys
-
+import colorgram
 
 def resize_image(image_path):
     img = cv2.imread(image_path)
@@ -38,50 +38,53 @@ def get_color_palette():
     # Open file dialog to select image
     root = tk.Tk()
     root.withdraw()
-    file_path = filedialog.askopenfilename()
-    file_name = os.path.splitext(os.path.basename(file_path))[0]
+    try:
+        file_path = filedialog.askopenfilename()
+        file_name = os.path.splitext(os.path.basename(file_path))[0]
 
-    # Resize the image
-    img = resize_image(file_path)
-    # Convert to RGB color space
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # Resize the image
+        img = resize_image(file_path)
+        # Convert to RGB color space
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # Get number of available threads
-    num_threads = os.cpu_count()
+        # Get number of available threads
+        num_threads = os.cpu_count()
 
-    # Divide image up into slices
-    slice_size = len(img) // num_threads
-    slices = [(i*slice_size, (i+1)*slice_size) for i in range(num_threads)]
-    slices[-1] = (slices[-1][0], len(img))
+        # Divide image up into slices
+        slice_size = len(img) // num_threads
+        slices = [(i*slice_size, (i+1)*slice_size) for i in range(num_threads)]
+        slices[-1] = (slices[-1][0], len(img))
 
-    # Process each slice in parallel
-    sorted_colors = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-        futures = []
-        for start, end in slices:
-            futures.append(executor.submit(process_slice, img, start, end))
-        for future in concurrent.futures.as_completed(futures):
-            sorted_colors.extend(future.result())
+        # Process each slice in parallel
+        sorted_colors = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+            futures = []
+            for start, end in slices:
+                futures.append(executor.submit(process_slice, img, start, end))
+            for future in concurrent.futures.as_completed(futures):
+                sorted_colors.extend(future.result())
 
-    # Display the color palette
-    palette = np.zeros((105, 90, 3), dtype=np.uint8)  # 15 * 7, 15 * 6
-    start = 0
-    for i in range(7):
-        for j in range(6):
-            color = sorted_colors[start]
-            palette[i * 15:(i + 1) * 15, j * 15:(j + 1) * 15] = color
-            start += 1
-    fig, ax = plt.subplots(num=f'{file_name} Color Palette', figsize=(3.34, 3.84), dpi=100)  # height in inches, width in inches, DPI
-    ax.imshow(palette, interpolation='nearest', extent=[0, 90, 0, 105])
-    fig.patch.set_facecolor('black')
-    root.title('Extracted Color Palette') # Set the window title
-    ax.axis('off')
-    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
+        # Display the color palette
+        palette = np.zeros((105, 90, 3), dtype=np.uint8)  # 15 * 7, 15 * 6
+        start = 0
+        for i in range(7):
+            for j in range(6):
+                color = sorted_colors[start]
+                palette[i * 15:(i + 1) * 15, j * 15:(j + 1) * 15] = color
+                start += 1
+        fig, ax = plt.subplots(num=f'{file_name} Color Palette', figsize=(3.34, 3.84), dpi=100)  # height in inches, width in inches, DPI
+        ax.imshow(palette, interpolation='nearest', extent=[0, 90, 0, 105])
+        fig.patch.set_facecolor('black')
+        root.title('Extracted Color Palette') # Set the window title
+        ax.axis('off')
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
 
-    plt.show()
+        plt.show()
 
-    # Properly close the ThreadPoolExecutor
-    executor.shutdown(wait=False)
+        # Properly close the ThreadPoolExecutor
+        executor.shutdown(wait=False)
+    except (AttributeError) as e:
+        print("File not opened.")
 
 
 def sort_colors_by_similarity(colors):
@@ -267,10 +270,115 @@ def save_palette():
             break
 
 
+def define_palette():
+    def save_defined_palette():
+        try:
+            # Create a white image with the size of the canvas
+            image = Image.new('RGB', (canvas_width, canvas_height), (255, 255, 255))
+            draw = ImageDraw.Draw(image)
+
+            # Draw each tile on the image
+            min_x, min_y, max_x, max_y = canvas_width, canvas_height, 0, 0
+            canvas_items = canvas.find_all()
+            for item in canvas_items:
+                x1, y1, x2, y2 = canvas.coords(item)
+                color = canvas.itemcget(item, 'fill')
+
+                # Draw the colored rectangle with a black border
+                draw.rectangle((x1 - 2, y1 - 2, x2 + 2, y2 + 2), fill=color, outline=(0, 0, 0))
+
+                min_x = min(min_x, x1)
+                min_y = min(min_y, y1)
+                max_x = max(max_x, x2)
+                max_y = max(max_y, y2)
+
+            # Crop the image to the bounding box of the tiles
+            image = image.crop((min_x, min_y, max_x, max_y))
+
+            # Ask the user for the save file path
+            file_path = filedialog.asksaveasfilename(defaultextension=".png",
+                                                     filetypes=[("PNG Files", "*.png"),
+                                                                ("JPEG Files", "*.jpg"),
+                                                                ("Bitmap", ".bmp")])
+            if file_path:
+                # Save the cropped image to the file path
+                image.save(file_path)
+            else:
+                print("Save Canceled")
+        except ValueError as e:
+            print("Save Canceled")
+    try:
+        # Open file dialog to select image
+        file_path = filedialog.askopenfilename(filetypes=[("Image files", ".jpg .jpeg .png .bmp")])
+
+        # Load image using Pillow library
+        image = Image.open(file_path)
+
+        color_test = colorgram.extract(image, -1)
+
+        # Extract colors from image using colorgram library
+        if not natural_extraction_entry.get() or not natural_extraction_entry.get().isdigit():
+            num_colors = len(color_test)
+            print(f"Invalid entry.\nFull color palette in image is {len(color_test)} colors.")
+        elif len(color_test) < int(natural_extraction_entry.get()):
+            num_colors = len(color_test)
+            print(f"User entered more colors than are present in image."
+                  f"\nFull color palette in image is {len(color_test)} colors.")
+        else:
+            num_colors = int(natural_extraction_entry.get())  # Get number of colors from user input
+
+        colors = colorgram.extract(image, num_colors)
+
+        # Convert RGB color values to hex format
+        hex_colors = []
+        for color in colors:
+            r, g, b = color.rgb
+            hex_color = "#{:02x}{:02x}{:02x}".format(r, g, b)
+            hex_colors.append(hex_color)
+
+        # Calculate grid size based on number of colors
+        num_cols = 16
+        num_rows = (num_colors + num_cols - 1) // num_cols
+
+        # Create new window for color palette grid
+        palette_window = tk.Toplevel(root)
+        palette_window.title("Color Palette")
+
+        # Create canvas for color palette grid
+        box_size = 20  # Size of each color box
+        canvas_width = num_cols * box_size
+        canvas_height = num_rows * box_size
+        canvas = tk.Canvas(palette_window, width=canvas_width, height=canvas_height)
+        canvas.pack()
+
+        # Draw color palette grid
+        for i in range(num_rows):
+            for j in range(num_cols):
+                index = i * num_cols + j
+                if len(hex_colors) < num_colors:
+                    print("Not enough colors in palette")
+                    return
+
+                if index < num_colors:
+                    color_box = canvas.create_rectangle(j * box_size, i * box_size,
+                                                        (j + 1) * box_size, (i + 1) * box_size,
+                                                        fill=hex_colors[index], width=2, outline="black")
+
+        # Resize window to fit color palette
+        palette_window.geometry('{}x{}'.format(canvas_width, canvas_height + 50))
+
+        # Add Save Palette button
+        save_button = tk.Button(palette_window, text="Save Palette", command=save_defined_palette)
+        save_button.pack()
+    except (FileNotFoundError, AttributeError) as e:
+        print("File not found or not a valid image file.")
+
+
+
 if __name__ == '__main__':
     # Create a Tkinter window and canvas
     root = tk.Tk()
-    root.title("Palette Pro v2.0.1")
+    root.title("Palette Pro v3.0.0")
 
     # Get the path to the bundled executable
     if getattr(sys, 'frozen', False):
@@ -283,6 +391,7 @@ if __name__ == '__main__':
     root.iconphoto(True, tk.PhotoImage(file=icon_path))
 
     root.resizable(False, False)
+
     canvas = tk.Canvas(root, width=16 * 20 + 3, height=70)
     canvas.pack()
 
@@ -300,13 +409,28 @@ if __name__ == '__main__':
     choose_button = tk.Button(button_frame, text="Choose Color", command=choose_starting_color)
     choose_button.pack(side="left", pady=10)
 
-    # Create a button to select an image
-    select_button = tk.Button(button_frame, text="Select Image", command=get_color_palette)
-    select_button.pack(anchor="center", side="left", pady=2)
-
     # Create a "Save" button to save the color palette as a PNG file
-    save_button = tk.Button(root, text="Save", command=save_palette)
-    save_button.pack(anchor="center", pady=2)
+    save_button = tk.Button(button_frame, text="Save Random Palette", command=save_palette)
+    save_button.pack(anchor="center", side="left", pady=2)
+
+    # Create a button to select an image
+    frame_e = tk.Frame(root, bd=2, relief="groove")
+    frame_e.pack(padx=10, pady=10)
+
+    algorithm_button = tk.Button(frame_e, text="Algorithmic Extraction", command=get_color_palette)
+    algorithm_button.pack()
+
+    frame_ne = tk.Frame(root, bd=2, relief="groove")
+    frame_ne.pack(padx=10, pady=10)
+
+    natural_extraction_label = tk.Label(frame_ne, text="Enter desired palette size:")
+    natural_extraction_label.grid(row=1, column=0)
+
+    natural_extraction_entry = tk.Entry(frame_ne)
+    natural_extraction_entry.grid(row=1, column=1, pady=10)
+
+    natural_extraction_button = tk.Button(frame_ne, text="Natural Extraction", command=define_palette)
+    natural_extraction_button.grid(row=1, column=2, pady=10)
 
     # Run the Tkinter event loop
     root.mainloop()

@@ -1,11 +1,19 @@
 ## Palette Pro
-This program allows you to create stunning 16-color paint palettes with matching light and dark variants for each color. With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids.
+This program offers a variety of powerful tools for creating and exploring color palettes. With just a few clicks, you can generate randomized color combinations and save them as beautifully crafted 320x60 PNG grids. In addition, you can extract color palettes from any image using two different methods: the Kmeans algorithm and Colorgram.
 
-In v2.0.x, we've added a new feature that lets you extract color palettes from any image using the Kmeans algorithm. Simply select an image and let the program do the rest! This feature is perfect for designers, artists, and anyone who wants to create color schemes based on an existing image.
+The Kmeans algorithm method clusters the pixels in the image into a specified number of groups to generate a color palette, while Colorgram extracts the dominant colors directly from the image. This gives you two powerful methods for generating color palettes based on existing images. Whether you're a designer, artist, or just looking to experiment with color, this program offers everything you need to create stunning and unique color schemes.
 
-Whether you're looking to create a brand new color palette or extract colors from an image, this program makes it easy to experiment with colors and find the perfect combinations for your next project.
+## Already have a copy of Palet Pro?
 
-## Palette Pro v2.0.0 Release and Install instructions:
+Pull the latest changes from your remote repository using the git pull command. Navigate to your Palette Pro directory and open a CMD window, copy and paste the command below and you are good to go! 
+
+	git pull
+
+
+## 
+
+## Palette Pro v3.0.0 Release and Install instructions:
+
 Review the code here - https://github.com/JAMadison/Palette_Pro/blob/main/main.py
 
 1. Requires python 3.10+ and Git
@@ -36,6 +44,68 @@ The first time this is ran it will execute the commands in the run.bat file, whi
 
 And that's it! Just follow these steps and Palette Pro should run smoothly on your machine.
 
+## UI Features
+
+* In the updated UI, chose your palette extraction method or generate random palettes.
+
+![alt text](README/UI_v3.png "New GUI")
+
+## Natural Extraction
+* Select any image file, and click "Open".
+![alt text](README/ne_palette_1.png "Chose your pallet size with Natural Extraction")![alt text](README/ne_palette_2.png "Chose your pallet size with Natural Extraction")
+
+![alt text](README/size.png "Chose your pallet size with Natural Extraction")
+
+* Save your file with various image formats.
+
+* If palette size is left blank or too large of a number was requested, it will default to all the colors avaible to this method. *
+
+## Algorithmic Extraction
+![alt text](README/example_1_Color_Palette.png "Example Palette 1")![alt text](README/example_2_Color_Palette.png "Example Palette 2")![alt text](README/example_3_Color_Palette.png "Example Palette 2")
+
+* Select any image file, and click "Open". * Depending on the available threads on your PC, this could take a bit. *
+
+![alt text](README/selection.png "image selection")
+
+* A new window will open with your extracted color palette! Here you can save the palette or view individual color tones listed in the bottom right.
+
+![alt text](README/example_extraction.png "Plotted Colors")
+
+This selected the 42 most used colors, determined algorithmically with a slight variation added, meaning, each time it's used on a single image will generate slightly different results.
+
+
+## Select Color
+By selecting the first color you set the tone for the rest of the 15 colors and their varients.
+
+*There is random logic to all the colors, if you select the same color twice you will get a different color palette.*
+
+![alt text](README/Choose_Starting_Color.png "Select a color to start the palette off of")
+
+![alt text](README/Choose_Starting_Color_Palette.png "Example of selected color palette")
+
+## Example Random Color Palettes
+![alt text](README/color_palette.png "Example Palette 1")
+
+![alt text](README/color_palette_2.png "Example Palette 2")
+
+![alt text](README/color_palette_3.png "Example Palette 3")
+
+## Update Notes
+
+* v3.0.0
+  * Added Colorgram extraction method
+    * Extracts the dominant colors directly from the image
+
+* v2.0.1
+* Random palettes now save to palette/ folder
+  * Added console print out of saved image name
+
+* v2.0.0
+  * Added Kmeans algorithm method
+    * Clusters the pixels in the image into a specified number of groups to generate a color palette
+
+
+
 ## Photoshop users: 
 
 1. Open Adobe Photoshop and create a new document or open an existing one.
@@ -55,43 +125,3 @@ option in the "Palette" dropdown. Then save the file as a PNG.
 layer.
 
 8. You can also save the loaded color palette as a new swatch library by clicking on the Swatches panel drop-down menu icon and selecting "Save Swatches". Give your new swatch library a name and save it to your desired location.
-
-## v2.0.1
-* Random palettes now save to palette/ folder
-  * Added console print out of saved image name
-
-## New to v2.0.0
-*Now you can select an image and extract a color palette from that image*
-
-1. Click "Select Image".
-
-![alt text](README/Palette_Pro_v2.png "New GUI")
-
-2. Select any image file, and click "Open". *Depending on the available threads on your PC, this could take a bit.*
-
-![alt text](README/selection.png "image selection")
-
-3. A new window will open with your extracted color palette! Here you can save the palette or view individual color tones listed in the bottom right.
-
-![alt text](README/example_extraction.png "Plotted Colors")
-
-This selected the 42 most used colors, determined algorithmically with a slight variation added, meaning, each time it's used on a single image will generate slightly different results.
-
-![alt text](README/example_1_Color_Palette.png "Example Palette 1")![alt text](README/example_2_Color_Palette.png "Example Palette 2")![alt text](README/example_3_Color_Palette.png "Example Palette 2")
-
-
-## Select Color
-By selecting the first color you set the tone for the rest of the 15 colors and their varients.
-
-*There is random logic to all the colors, if you select the same color twice you will get a different color palette.*
-
-![alt text](README/Choose_Starting_Color.png "Select a color to start the palette off of")
-
-![alt text](README/Choose_Starting_Color_Palette.png "Example of selected color palette")
-
-## Example Random Color Palettes
-![alt text](README/color_palette.png "Example Palette 1")
-
-![alt text](README/color_palette_2.png "Example Palette 2")
-
-![alt text](README/color_palette_3.png "Example Palette 3")

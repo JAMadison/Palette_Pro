@@ -25,6 +25,8 @@ if exist %env_name% (
 
 REM Activate virtual environment
 call %env_name%\Scripts\activate.bat
+echo Checking dependencies...
+pip install -r %requirements%
 
 REM Run script
 echo Running Pallet Pro...
