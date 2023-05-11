@@ -56,7 +56,7 @@ And that's it! Just follow these steps and Palette Pro should run smoothly on yo
 
 * Select any image file, and click "Open". See below for examples of color palettes extracted from images. 
   
-  # ![alt text](README/ne_palette_1.png "Chose your pallet size with Natural Extraction")![alt text](README/ne_palette_2.png "Chose your pallet size with Natural Extraction")![alt text](README/size.png "Chose your pallet size with Natural Extraction")
+  # ![alt text](README/ne_palette_1.png "Chose your pallet size with Natural Extraction")![alt text](README/ne_palette_2.png "Chose your pallet size with Natural Extraction")
 
 * Save your file with various image formats.
 
