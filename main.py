@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.colorchooser as colorchooser
 from PIL import Image, ImageDraw
-from random import randint, uniform
+from random import randint, uniform, sample
 import colorsys
 from math import sqrt
 import cv2
@@ -11,8 +11,15 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from tkinter import filedialog
 import concurrent.futures
-import os, sys
+import os
 import colorgram
+
+# Set the dark theme colors
+bg_color = "#282828"
+fg_color = "#ffffff"
+button_color = "#4a4a4a"
+accent_color = "#f05454"
+
 
 def resize_image(image_path):
     img = cv2.imread(image_path)
@@ -38,6 +45,7 @@ def get_color_palette():
     # Open file dialog to select image
     root = tk.Tk()
     root.withdraw()
+
     try:
         file_path = filedialog.askopenfilename()
         file_name = os.path.splitext(os.path.basename(file_path))[0]
@@ -72,7 +80,8 @@ def get_color_palette():
                 color = sorted_colors[start]
                 palette[i * 15:(i + 1) * 15, j * 15:(j + 1) * 15] = color
                 start += 1
-        fig, ax = plt.subplots(num=f'{file_name} Color Palette', figsize=(3.34, 3.84), dpi=100)  # height in inches, width in inches, DPI
+        # height in inches, width in inches, DPI
+        fig, ax = plt.subplots(num=f'{file_name} Color Palette', figsize=(3.34, 3.84), dpi=100)
         ax.imshow(palette, interpolation='nearest', extent=[0, 90, 0, 105])
         fig.patch.set_facecolor('black')
         root.title('Extracted Color Palette') # Set the window title
@@ -83,7 +92,7 @@ def get_color_palette():
 
         # Properly close the ThreadPoolExecutor
         executor.shutdown(wait=False)
-    except (AttributeError) as e:
+    except AttributeError:
         print("File not opened.")
 
 
@@ -156,8 +165,8 @@ def generate_palette(start_color=None):
     palette = [start_color]
     for i in range(1, 16):
         hue = (i / 16.0) * 360
-        saturation = uniform(0.001, 1.0)
-        lightness = uniform(0.25, 0.5)
+        saturation = uniform(0.0001, 1.0)
+        lightness = uniform(0.1, 0.55)
         new_color = tuple(int(c * 255) for c in colorsys.hls_to_rgb(hue / 360.0, lightness, saturation))
         palette.append(new_color)
 
@@ -168,7 +177,7 @@ def generate_palette(start_color=None):
     dark_palette = []
     for color in palette:
         h, l, s = colorsys.rgb_to_hls(*color)
-        l = max(1, l - 0.20)  # reduce lightness by 0.2
+        l = max(1, l - 0.10)  # reduce lightness by 0.2
         rgb = colorsys.hls_to_rgb(h, l, s)
         dark_color = tuple(min(255, max(0, int(c * uniform(0.45, 0.65)))) for c in rgb)
         dark_palette.append(dark_color)
@@ -177,7 +186,7 @@ def generate_palette(start_color=None):
     light_palette = []
     for color in palette:
         h, l, s = colorsys.rgb_to_hls(*color)
-        l = max(1, l + 20)
+        l = max(1, l + 32)
         rgb = colorsys.hls_to_rgb(h, l, s)
         light_color = tuple(min(255, max(0, int(c * uniform(1.15, 1.35)))) for c in rgb)
         light_palette.append(light_color)
@@ -263,11 +272,16 @@ def save_palette():
         filename = f"palettes/color_palette{'_' + str(count) if count > 1 else ''}.png"
         if os.path.exists(filename):
             count += 1
-            #print(f"Saved {filename}")
         else:
             img.save(filename)
             print(f"Saved {filename}")
             break
+
+
+def sort_by_brightness_and_hue(hex_color):
+    r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (1, 3, 5))
+    h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+    return (v, h)
 
 
 def define_palette():
@@ -319,7 +333,7 @@ def define_palette():
         # Extract colors from image using colorgram library
         if not natural_extraction_entry.get() or not natural_extraction_entry.get().isdigit():
             num_colors = len(color_test)
-            print(f"Invalid entry.\nFull color palette in image is {len(color_test)} colors.")
+            print(f"Full color palette in image is {len(color_test)} colors.")
         elif len(color_test) < int(natural_extraction_entry.get()):
             num_colors = len(color_test)
             print(f"User entered more colors than are present in image."
@@ -327,14 +341,19 @@ def define_palette():
         else:
             num_colors = int(natural_extraction_entry.get())  # Get number of colors from user input
 
-        colors = colorgram.extract(image, num_colors)
-
         # Convert RGB color values to hex format
+
         hex_colors = []
-        for color in colors:
+
+        for color in color_test:
             r, g, b = color.rgb
             hex_color = "#{:02x}{:02x}{:02x}".format(r, g, b)
             hex_colors.append(hex_color)
+
+        if natural_extraction_entry.get() != "" and int(natural_extraction_entry.get()) < len(color_test):
+            hex_colors = sample(hex_colors, int(natural_extraction_entry.get()))
+
+        hex_colors.sort(key=sort_by_brightness_and_hue)
 
         # Calculate grid size based on number of colors
         num_cols = 16
@@ -344,11 +363,19 @@ def define_palette():
         palette_window = tk.Toplevel(root)
         palette_window.title("Color Palette")
 
+        # Set the dark theme colors
+        bg_color = "#282828"
+        fg_color = "#ffffff"
+        button_color = "#4a4a4a"
+        accent_color = "#f05454"
+
+        palette_window.configure(bg=bg_color)
+
         # Create canvas for color palette grid
         box_size = 20  # Size of each color box
         canvas_width = num_cols * box_size
         canvas_height = num_rows * box_size
-        canvas = tk.Canvas(palette_window, width=canvas_width, height=canvas_height)
+        canvas = tk.Canvas(palette_window, width=canvas_width, height=canvas_height, bg=bg_color, highlightthickness=0)
         canvas.pack()
 
         # Draw color palette grid
@@ -368,23 +395,29 @@ def define_palette():
         palette_window.geometry('{}x{}'.format(canvas_width, canvas_height + 50))
 
         # Add Save Palette button
-        save_button = tk.Button(palette_window, text="Save Palette", command=save_defined_palette)
+        save_button = tk.Button(palette_window, text="Save Palette", command=save_defined_palette, bg=button_color,
+                                 fg=fg_color, relief="flat", activebackground=accent_color, activeforeground=fg_color,
+                                 bd=0, padx=20, pady=10, highlightthickness=0)
         save_button.pack()
+
     except (FileNotFoundError, AttributeError) as e:
         print("File not found or not a valid image file.")
-
 
 
 if __name__ == '__main__':
     # Create a Tkinter window and canvas
     root = tk.Tk()
-    root.title("Palette Pro v3.0.0")
+    root.title("Palette Pro v3.5.1")
 
-    # Get the path to the bundled executable
-    if getattr(sys, 'frozen', False):
-        bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-    else:
-        bundle_dir = os.path.abspath(os.path.dirname(__file__))
+    # Set the dark theme colors
+    bg_color = "#282828"
+    fg_color = "#ffffff"
+    button_color = "#4a4a4a"
+    accent_color = "#f05454"
+
+    root.configure(bg=bg_color)
+
+    bundle_dir = os.path.abspath(os.path.dirname(__file__))
 
     # Set the window icon
     icon_path = os.path.join(bundle_dir, 'images', 'icon.png')
@@ -392,45 +425,55 @@ if __name__ == '__main__':
 
     root.resizable(False, False)
 
-    canvas = tk.Canvas(root, width=16 * 20 + 3, height=70)
-    canvas.pack()
+    canvas = tk.Canvas(root, width=16 * 20 + 3, height=70, bg=bg_color, bd=0, highlightthickness=0)
+    canvas.pack(pady=10)
 
     # Generate the initial color palette
     generate_palette()
 
-    # Create a new frame for the first two buttons
-    button_frame = tk.Frame(root)
+    # Create a new frame for the buttons
+    button_frame = tk.Frame(root, bg=bg_color)
     button_frame.pack()
 
     # Create a "Generate New Palette" button to create a new color palette
-    generate_button = tk.Button(button_frame, text="Random Palette", command=generate_palette)
-    generate_button.pack(side="left", pady=10)
+    generate_button = tk.Button(button_frame, text="Random Palette", command=generate_palette, bg=button_color,
+                                fg=fg_color, relief="flat", activebackground=accent_color, activeforeground=fg_color,
+                                bd=0, padx=20, pady=10, highlightthickness=0)
+    generate_button.pack(side="left", padx=5)
 
-    choose_button = tk.Button(button_frame, text="Choose Color", command=choose_starting_color)
-    choose_button.pack(side="left", pady=10)
+    choose_button = tk.Button(button_frame, text="Choose Color", command=choose_starting_color, bg=button_color,
+                              fg=fg_color, relief="flat", activebackground=accent_color, activeforeground=fg_color,
+                              bd=0, padx=20, pady=10, highlightthickness=0)
+    choose_button.pack(side="left", padx=5)
 
     # Create a "Save" button to save the color palette as a PNG file
-    save_button = tk.Button(button_frame, text="Save Random Palette", command=save_palette)
-    save_button.pack(anchor="center", side="left", pady=2)
+    save_button = tk.Button(button_frame, text="Save Random Palette", command=save_palette, bg=button_color,
+                            fg=fg_color, relief="flat", activebackground=accent_color, activeforeground=fg_color, bd=0,
+                            padx=20, pady=10, highlightthickness=0)
+    save_button.pack(side="left", padx=5)
 
-    # Create a button to select an image
-    frame_e = tk.Frame(root, bd=2, relief="groove")
+    # Create a frame and button to select an image
+    frame_e = tk.Frame(root, bg=bg_color, bd=0)
     frame_e.pack(padx=10, pady=10)
 
-    algorithm_button = tk.Button(frame_e, text="Algorithmic Extraction", command=get_color_palette)
+    algorithm_button = tk.Button(frame_e, text="Algorithmic Extraction", command=get_color_palette, bg=button_color,
+                                 fg=fg_color, relief="flat", activebackground=accent_color, activeforeground=fg_color,
+                                 bd=0, padx=20, pady=10, highlightthickness=0)
     algorithm_button.pack()
 
-    frame_ne = tk.Frame(root, bd=2, relief="groove")
+    frame_ne = tk.Frame(root, bg=bg_color, bd=0)
     frame_ne.pack(padx=10, pady=10)
 
-    natural_extraction_label = tk.Label(frame_ne, text="Enter desired palette size:")
-    natural_extraction_label.grid(row=1, column=0)
+    natural_extraction_label = tk.Label(frame_ne, text="Enter desired palette size:", bg=bg_color, fg=fg_color)
+    natural_extraction_label.grid(row=1, column=0, padx=5)
 
-    natural_extraction_entry = tk.Entry(frame_ne)
-    natural_extraction_entry.grid(row=1, column=1, pady=10)
+    natural_extraction_entry = tk.Entry(frame_ne, bg=button_color, fg=fg_color, insertbackground=fg_color)
+    natural_extraction_entry.grid(row=1, column=1, pady=10, padx=5)
 
-    natural_extraction_button = tk.Button(frame_ne, text="Natural Extraction", command=define_palette)
-    natural_extraction_button.grid(row=1, column=2, pady=10)
+    natural_extraction_button = tk.Button(frame_ne, text="Natural Extraction", command=define_palette, bg=button_color,
+                                          fg=fg_color, relief="flat", activebackground=accent_color,
+                                          activeforeground=fg_color, bd=0, padx=20, pady=10, highlightthickness=0)
+    natural_extraction_button.grid(row=1, column=2, pady=10, padx=5)
 
     # Run the Tkinter event loop
     root.mainloop()
